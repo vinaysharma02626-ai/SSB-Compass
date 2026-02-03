@@ -1,0 +1,2059 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SSB COMPASS - Your Path to Selection</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-green: #1a5d3a;
+            --light-green: #2d8659;
+            --cream: #f5f0e8;
+            --dark-cream: #e8dcc8;
+            --gold: #c4a556;
+            --dark-text: #1a1a1a;
+            --light-text: #4a4a4a;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--dark-text);
+            background-color: var(--cream);
+        }
+
+        /* ===== HEADER & NAVIGATION ===== */
+        header {
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--light-green) 100%);
+            color: var(--cream);
+            padding: 1rem 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo {
+            width: 60px;
+            height: 60px;
+            background: var(--cream);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--primary-green);
+            font-size: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+
+        .brand-text h1 {
+            font-size: 28px;
+            margin: 0;
+            letter-spacing: 2px;
+        }
+
+        .brand-text p {
+            font-size: 11px;
+            margin: 0;
+            opacity: 0.9;
+        }
+
+        nav {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        nav a {
+            color: var(--cream);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+        }
+
+        nav a:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.6rem 1.5rem;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: var(--gold);
+            color: var(--primary-green);
+        }
+
+        .btn-primary:hover {
+            background: #dbb85f;
+            transform: scale(1.05);
+        }
+
+        .btn-secondary {
+            background: rgba(255,255,255,0.2);
+            color: var(--cream);
+            border: 2px solid var(--cream);
+        }
+
+        .btn-secondary:hover {
+            background: var(--cream);
+            color: var(--primary-green);
+        }
+
+        /* ===== MODAL STYLES ===== */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background-color: var(--cream);
+            margin: 5% auto;
+            padding: 2rem;
+            border: 1px solid var(--dark-cream);
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .close {
+            color: var(--primary-green);
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .close:hover {
+            color: var(--light-green);
+            transform: scale(1.2);
+        }
+
+        .modal h2 {
+            color: var(--primary-green);
+            margin-bottom: 1.5rem;
+            font-size: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--light-text);
+            font-weight: 500;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid var(--dark-cream);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border 0.3s ease;
+            font-family: inherit;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: var(--light-green);
+            box-shadow: 0 0 8px rgba(45, 134, 89, 0.2);
+        }
+
+        /* ===== HERO SECTION ===== */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--light-green) 100%);
+            color: var(--cream);
+            padding: 6rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section {
+            padding: 4rem 0;
+            border-bottom: 2px solid var(--dark-cream);
+        }
+
+        .section h2 {
+            font-size: 2.5rem;
+            color: var(--primary-green);
+            margin-bottom: 3rem;
+            text-align: center;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        .section h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--gold);
+            border-radius: 2px;
+        }
+
+        /* ===== COURSES GRID ===== */
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .course-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border-left: 5px solid var(--light-green);
+        }
+
+        .course-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .course-header {
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--light-green) 100%);
+            color: var(--cream);
+            padding: 1.5rem;
+        }
+
+        .course-header h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .course-duration {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .course-body {
+            padding: 1.5rem;
+        }
+
+        .course-body ul {
+            list-style: none;
+            margin-bottom: 1rem;
+        }
+
+        .course-body li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+            color: var(--light-text);
+        }
+
+        .course-body li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--light-green);
+            font-weight: bold;
+        }
+
+        .course-price {
+            font-size: 1.8rem;
+            color: var(--primary-green);
+            font-weight: bold;
+            margin: 1rem 0;
+        }
+
+        .course-footer {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-small {
+            flex: 1;
+            padding: 0.7rem;
+            border: 2px solid var(--light-green);
+            background: transparent;
+            color: var(--light-green);
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-small:hover {
+            background: var(--light-green);
+            color: white;
+        }
+
+        .btn-buy {
+            background: var(--light-green);
+            color: white;
+            border: none;
+        }
+
+        .btn-buy:hover {
+            background: var(--primary-green);
+        }
+
+        /* ===== RESULTS SHOWCASE ===== */
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .result-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .result-card:hover {
+            transform: scale(1.05);
+        }
+
+        .result-image {
+            width: 100%;
+            height: 250px;
+            background: linear-gradient(135deg, var(--dark-cream) 0%, var(--cream) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+            color: var(--primary-green);
+        }
+
+        .result-info {
+            padding: 1.5rem;
+        }
+
+        .result-info h4 {
+            color: var(--primary-green);
+            margin-bottom: 0.5rem;
+        }
+
+        .result-info p {
+            color: var(--light-text);
+            font-size: 0.95rem;
+        }
+
+        .badge {
+            display: inline-block;
+            background: var(--light-green);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+        }
+
+        /* ===== FACULTY SECTION ===== */
+        .faculty-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .faculty-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .faculty-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .faculty-image {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(135deg, var(--light-green) 0%, var(--primary-green) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 80px;
+            color: rgba(255,255,255,0.3);
+        }
+
+        .faculty-info {
+            padding: 2rem;
+        }
+
+        .faculty-info h4 {
+            color: var(--primary-green);
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .faculty-title {
+            color: var(--light-green);
+            font-weight: 600;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+
+        .faculty-info p {
+            color: var(--light-text);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* ===== FEATURES ===== */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border-top: 4px solid var(--light-green);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            color: var(--primary-green);
+            margin-bottom: 1rem;
+        }
+
+        .feature-card p {
+            color: var(--light-text);
+        }
+
+        /* ===== ADMIN SECTION ===== */
+        .admin-dashboard {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            z-index: 2000;
+            overflow-y: auto;
+        }
+
+        .admin-dashboard.active {
+            display: block;
+        }
+
+        .admin-header {
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--light-green) 100%);
+            color: white;
+            padding: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .admin-main {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .admin-sidebar {
+            width: 250px;
+            background: var(--primary-green);
+            color: var(--cream);
+            padding: 2rem 0;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            margin-top: 80px;
+        }
+
+        .admin-sidebar a {
+            display: block;
+            color: var(--cream);
+            padding: 1rem 1.5rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+
+        .admin-sidebar a:hover,
+        .admin-sidebar a.active {
+            background: rgba(255,255,255,0.1);
+            border-left-color: var(--gold);
+        }
+
+        .admin-content {
+            margin-left: 250px;
+            padding: 2rem;
+            flex: 1;
+            margin-top: 80px;
+        }
+
+        .admin-section {
+            display: none;
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .admin-section.active {
+            display: block;
+        }
+
+        .admin-section h3 {
+            color: var(--primary-green);
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            background: var(--primary-green);
+            color: var(--cream);
+            padding: 3rem 2rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h4 {
+            margin-bottom: 1rem;
+            color: var(--gold);
+        }
+
+        .footer-section a {
+            display: block;
+            color: var(--cream);
+            text-decoration: none;
+            margin-bottom: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: var(--gold);
+            padding-left: 0.5rem;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            border-top: 2px solid rgba(255,255,255,0.1);
+            padding-top: 2rem;
+            color: var(--dark-cream);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            nav {
+                flex-direction: column;
+                gap: 0.5rem;
+                width: 100%;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .admin-sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                margin-top: 0;
+            }
+
+            .admin-content {
+                margin-left: 0;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+
+        /* ===== UTILITY CLASSES ===== */
+        .hidden {
+            display: none !important;
+        }
+
+        .success-message {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .error-message {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .info-message {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            color: #0c5460;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+            margin-top: 1.5rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        th {
+            background: var(--primary-green);
+            color: white;
+            padding: 1rem;
+            text-align: left;
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--dark-cream);
+        }
+
+        tr:hover {
+            background: var(--cream);
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <header>
+        <div class="header-container">
+            <div class="logo-section">
+                <div class="logo">🧭</div>
+                <div class="brand-text">
+                    <h1>SSB COMPASS</h1>
+                    <p>Guiding in the right direction</p>
+                </div>
+            </div>
+            <nav>
+                <a href="#home" onclick="showSection('home')">Home</a>
+                <a href="#courses" onclick="showSection('courses')">Courses</a>
+                <a href="#results" onclick="showSection('results')">Results</a>
+                <a href="#faculty" onclick="showSection('faculty')">Faculty</a>
+                <a href="#about" onclick="showSection('about')">About</a>
+                <a href="#contact" onclick="showSection('contact')">Contact</a>
+                <div class="auth-buttons">
+                    <button class="btn btn-secondary" onclick="openModal('loginModal')">Login</button>
+                    <button class="btn btn-primary" onclick="openModal('registerModal')">Register</button>
+                    <button class="btn btn-primary" onclick="adminLogin()">Admin</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- LOGIN MODAL -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('loginModal')">&times;</span>
+            <h2>User Login</h2>
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" id="loginEmail" placeholder="Enter your email">
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="loginPassword" placeholder="Enter your password">
+            </div>
+            <button class="btn btn-primary" style="width: 100%; margin-top: 1rem;" onclick="userLogin()">Login</button>
+            <p style="text-align: center; margin-top: 1rem; color: var(--light-text);">
+                Don't have an account? <a href="#" onclick="openModal('registerModal'); closeModal('loginModal');" style="color: var(--light-green); font-weight: 600;">Register here</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- REGISTER MODAL -->
+    <div id="registerModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('registerModal')">&times;</span>
+            <h2>Create New Account</h2>
+            <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" id="regName" placeholder="Enter your full name">
+            </div>
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" id="regEmail" placeholder="Enter your email">
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="regPassword" placeholder="Enter a strong password">
+            </div>
+            <div class="form-group">
+                <label>Confirm Password</label>
+                <input type="password" id="regConfirmPassword" placeholder="Confirm your password">
+            </div>
+            <button class="btn btn-primary" style="width: 100%; margin-top: 1rem;" onclick="userRegister()">Register</button>
+            <p style="text-align: center; margin-top: 1rem; color: var(--light-text);">
+                Already have an account? <a href="#" onclick="openModal('loginModal'); closeModal('registerModal');" style="color: var(--light-green); font-weight: 600;">Login here</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- ADMIN LOGIN MODAL -->
+    <div id="adminLoginModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('adminLoginModal')">&times;</span>
+            <h2>Admin Login</h2>
+            <div class="info-message">
+                <strong>Demo Credentials:</strong><br>
+                ID: ADMIN123<br>
+                Password: SSBNEW2026
+            </div>
+            <div class="form-group">
+                <label>Admin ID</label>
+                <input type="text" id="adminId" placeholder="Enter Admin ID">
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="adminPass" placeholder="Enter password">
+            </div>
+            <button class="btn btn-primary" style="width: 100%; margin-top: 1rem;" onclick="adminLoginVerify()">Login</button>
+        </div>
+    </div>
+
+    <!-- PAYMENT MODAL -->
+    <div id="paymentModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('paymentModal')">&times;</span>
+            <h2>Complete Your Payment</h2>
+            <div id="paymentDetails"></div>
+            <div class="success-message">
+                <strong>UPI Payment Instructions:</strong><br>
+                <br>
+                <strong>UPI ID:</strong> <code style="background: white; padding: 0.3rem 0.6rem; border-radius: 4px;">8290002626@axl</code>
+                <br><br>
+                <strong>Steps:</strong><br>
+                1. Open your UPI app (Google Pay, PhonePe, WhatsApp Pay, etc.)<br>
+                2. Select "Send Money"<br>
+                3. Enter UPI ID: <strong>8290002626@axl</strong><br>
+                4. Enter amount shown below<br>
+                5. Complete payment<br>
+                6. Screenshot proof and send to WhatsApp or email<br>
+            </div>
+            <div class="form-group">
+                <label>Amount to Pay</label>
+                <input type="text" id="paymentAmount" readonly style="background: var(--dark-cream);">
+            </div>
+            <div class="form-group">
+                <label>Reference Number</label>
+                <input type="text" id="paymentRef" readonly style="background: var(--dark-cream);">
+            </div>
+            <button class="btn btn-primary" style="width: 100%; margin-top: 1rem;" onclick="completePayment()">Confirm Payment</button>
+            <p style="font-size: 0.9rem; color: var(--light-text); margin-top: 1rem;">
+                💡 <strong>Tip:</strong> Keep UPI ID screenshot for future reference and receipt purposes.
+            </p>
+        </div>
+    </div>
+
+    <!-- HOME SECTION -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>🎖️ SSB COMPASS</h1>
+            <p>Your complete guide to SSB selection - TAT, Psyche, GD, PIQ and more!</p>
+            <p style="font-size: 1.1rem; opacity: 0.9;">Trained by Air Force Professional | AIR 16 AFCAT 2024</p>
+            <div class="hero-buttons">
+                <button class="btn btn-primary" onclick="showSection('courses')">Explore Courses</button>
+                <button class="btn btn-secondary" onclick="showSection('results')">View Results</button>
+                <button class="btn btn-secondary" onclick="showSection('about')">Meet Faculty</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- FEATURES SECTION -->
+    <section class="container section" style="display: none;" id="features-section">
+        <h2>Why Choose SSB COMPASS?</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">📚</div>
+                <h3>Comprehensive Training</h3>
+                <p>Complete coverage of all SSB stages including TAT, Psyche, GD, and PIQ with detailed modules.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🏆</div>
+                <h3>Expert Faculty</h3>
+                <p>Learn from selected air force professionals with real-world experience and proven track records.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3>Live Results</h3>
+                <p>Track our students' success stories and see real candidates who made it through SSB.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💻</div>
+                <h3>Interactive Learning</h3>
+                <p>Online courses with interactive modules, mock tests, and personalized feedback.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <h3>Lifetime Access</h3>
+                <p>Access course materials anytime, anywhere with lifetime validity on all courses.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔐</div>
+                <h3>3-Day Refund</h3>
+                <p>Not satisfied? Get 100% refund within 3 days of course purchase, no questions asked.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- COURSES SECTION -->
+    <section id="courses" class="container section" style="display: none;">
+        <h2>Our Comprehensive Courses</h2>
+        <div class="courses-grid">
+            <div class="course-card">
+                <div class="course-header">
+                    <h3>Verbal Reasoning</h3>
+                    <div class="course-duration">⏱️ 30 Minutes | 50 Questions</div>
+                </div>
+                <div class="course-body">
+                    <ul>
+                        <li>Series Completion</li>
+                        <li>Coding-Decoding</li>
+                        <li>Synonyms & Antonyms</li>
+                        <li>Analogy Problems</li>
+                        <li>10+ Practice Tests</li>
+                        <li>Expert Solutions</li>
+                    </ul>
+                    <div class="course-price">₹999</div>
+                    <div class="course-footer">
+                        <button class="btn-small" onclick="addToCart('Verbal Reasoning', 999)">Add to Cart</button>
+                        <button class="btn-small btn-buy" onclick="purchaseCourse('Verbal Reasoning', 999)">Buy Now</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="course-card">
+                <div class="course-header">
+                    <h3>Non-Verbal Reasoning</h3>
+                    <div class="course-duration">⏱️ 30 Minutes | 50 Questions</div>
+                </div>
+                <div class="course-body">
+                    <ul>
+                        <li>Pattern Recognition</li>
+                        <li>Figure Series</li>
+                        <li>Spatial Ability</li>
+                        <li>Visual Puzzles</li>
+                        <li>15+ Practice Tests</li>
+                        <li>Video Explanations</li>
+                    </ul>
+                    <div class="course-price">₹999</div>
+                    <div class="course-footer">
+                        <button class="btn-small" onclick="addToCart('Non-Verbal Reasoning', 999)">Add to Cart</button>
+                        <button class="btn-small btn-buy" onclick="purchaseCourse('Non-Verbal Reasoning', 999)">Buy Now</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="course-card">
+                <div class="course-header">
+                    <h3>TAT (Thematic Apperception Test)</h3>
+                    <div class="course-duration">⏱️ 4 Minutes | 12 Pictures</div>
+                </div>
+                <div class="course-body">
+                    <ul>
+                        <li>30 Seconds Picture View</li>
+                        <li>4 Min Story Writing</li>
+                        <li>Age, Sex, Mood Analysis</li>
+                        <li>Action Interpretation</li>
+                        <li>20+ Sample Tests</li>
+                        <li>Expert Feedback</li>
+                    </ul>
+                    <div class="course-price">₹1,499</div>
+                    <div class="course-footer">
+                        <button class="btn-small" onclick="addToCart('TAT Course', 1499)">Add to Cart</button>
+                        <button class="btn-small btn-buy" onclick="purchaseCourse('TAT Course', 1499)">Buy Now</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="course-card">
+                <div class="course-header">
+                    <h3>Psyche (Psychological Test)</h3>
+                    <div class="course-duration">⏱️ 30 Seconds | 60 Situations</div>
+                </div>
+                <div class="course-body">
+                    <ul>
+                        <li>Real SSB Situations</li>
+                        <li>Practical Response Format</li>
+                        <li>Positive Psychology</li>
+                        <li>Decision Making</li>
+                        <li>100+ Real Scenarios</li>
+                        <li>Answer Bank</li>
+                    </ul>
+                    <div class="course-price">₹1,499</div>
+                    <div class="course-footer">
+                        <button class="btn-small" onclick="addToCart('Psyche Course', 1499)">Add to Cart</button>
+                        <button class="btn-small btn-buy" onclick="purchaseCourse('Psyche Course', 1499)">Buy Now</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="course-card">
+                <div class="course-header">
+                    <h3>Group Discussion (GD)</h3>
+                    <div class="course-duration">⏱️ 8 Minutes | 2 Rounds</div>
+                </div>
+                <div class="course-body">
+                    <ul>
+                        <li>GD Fundamentals</li>
+                        <li>Current Affairs Topics</li>
+                        <li>Listening Techniques</li>
+                        <li>Speaking Strategies</li>
+                        <li>25+ Mock GD Sessions</li>
+                        <li>Video Analysis</li>
+                    </ul>
+                    <div class="course-price">₹1,999</div>
+                    <div class="course-footer">
+                        <button class="btn-small" onclick="addToCart('GD Course', 1999)">Add to Cart</button>
+                        <button class="btn-small btn-buy" onclick="purchaseCourse('GD Course', 1999)">Buy Now</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="course-card">
+                <div class="course-header">
+                    <h3>PIQ (Personal Interview)</h3>
+                    <div class="course-duration">⏱️ 15 Minutes | Interview Prep</div>
+                </div>
+                <div class="course-body">
+                    <ul>
+                        <li>PIQ Form Analysis</li>
+                        <li>Personal Background</li>
+                        <li>Current Affairs Q&A</li>
+                        <li>Technical Questions</li>
+                        <li>50+ Interview Scenarios</li>
+                        <li>One-on-One Feedback</li>
+                    </ul>
+                    <div class="course-price">₹2,499</div>
+                    <div class="course-footer">
+                        <button class="btn-small" onclick="addToCart('PIQ Course', 2499)">Add to Cart</button>
+                        <button class="btn-small btn-buy" onclick="purchaseCourse('PIQ Course', 2499)">Buy Now</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="course-card">
+                <div class="course-header">
+                    <h3>Self Description</h3>
+                    <div class="course-duration">⏱️ 15 Minutes | Essay Writing</div>
+                </div>
+                <div class="course-body">
+                    <ul>
+                        <li>4 Paragraph Format</li>
+                        <li>Parents' Perspective</li>
+                        <li>Teachers' Perspective</li>
+                        <li>Friends' Perspective</li>
+                        <li>Self Perspective</li>
+                        <li>30+ Sample Essays</li>
+                    </ul>
+                    <div class="course-price">₹1,299</div>
+                    <div class="course-footer">
+                        <button class="btn-small" onclick="addToCart('Self Description', 1299)">Add to Cart</button>
+                        <button class="btn-small btn-buy" onclick="purchaseCourse('Self Description', 1299)">Buy Now</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="course-card">
+                <div class="course-header">
+                    <h3>Complete SSB Bundle</h3>
+                    <div class="course-duration">🎯 All in One | Lifetime Access</div>
+                </div>
+                <div class="course-body">
+                    <ul>
+                        <li>✨ All 7 Courses Combined</li>
+                        <li>📚 100+ Hours Content</li>
+                        <li>🎓 Expert Mentorship</li>
+                        <li>📝 Lifetime Study Material</li>
+                        <li>🏆 Success Guaranteed*</li>
+                        <li>💰 50% Discount Applied</li>
+                    </ul>
+                    <div class="course-price">₹7,499 <span style="font-size: 0.8rem; text-decoration: line-through; color: var(--light-text);">₹14,999</span></div>
+                    <div class="course-footer">
+                        <button class="btn-small" onclick="addToCart('Complete Bundle', 7499)">Add to Cart</button>
+                        <button class="btn-small btn-buy" onclick="purchaseCourse('Complete Bundle', 7499)">Buy Now</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- RECENT RESULTS SECTION -->
+    <section id="results" class="container section" style="display: none;">
+        <h2>🏆 Recently Selected Candidates</h2>
+        <div class="results-grid" id="resultsGrid">
+            <div class="result-card">
+                <div class="result-image">🎖️</div>
+                <div class="result-info">
+                    <h4>Rahul Singh</h4>
+                    <p>Fighter Pilot - IAF</p>
+                    <span class="badge">Selected Aug 2025</span>
+                </div>
+            </div>
+            <div class="result-card">
+                <div class="result-image">🎖️</div>
+                <div class="result-info">
+                    <h4>Priya Sharma</h4>
+                    <p>Service Officer - Army</p>
+                    <span class="badge">Selected Jul 2025</span>
+                </div>
+            </div>
+            <div class="result-card">
+                <div class="result-image">🎖️</div>
+                <div class="result-info">
+                    <h4>Aditya Patel</h4>
+                    <p>Pilot Officer - IAF</p>
+                    <span class="badge">Selected Jun 2025</span>
+                </div>
+            </div>
+            <div class="result-card">
+                <div class="result-image">🎖️</div>
+                <div class="result-info">
+                    <h4>Neha Gupta</h4>
+                    <p>Ground Duty Officer - Navy</p>
+                    <span class="badge">Selected May 2025</span>
+                </div>
+            </div>
+            <div class="result-card">
+                <div class="result-image">🎖️</div>
+                <div class="result-info">
+                    <h4>Karan Verma</h4>
+                    <p>Combat Officer - Army</p>
+                    <span class="badge">Selected Apr 2025</span>
+                </div>
+            </div>
+            <div class="result-card">
+                <div class="result-image">🎖️</div>
+                <div class="result-info">
+                    <h4>Ananya Desai</h4>
+                    <p>Commissioned Officer - IAF</p>
+                    <span class="badge">Selected Mar 2025</span>
+                </div>
+            </div>
+        </div>
+        <div style="text-align: center; margin-top: 3rem;">
+            <p style="color: var(--light-text); font-size: 1.1rem;">
+                <strong>92%</strong> of our students clear SSB | <strong>78%</strong> get SSB Interview calls
+            </p>
+        </div>
+    </section>
+
+    <!-- FACULTY SECTION -->
+    <section id="faculty" class="container section" style="display: none;">
+        <h2>Meet Our Faculty</h2>
+        <div class="faculty-grid">
+            <div class="faculty-card">
+                <div class="faculty-image">👩‍✈️</div>
+                <div class="faculty-info">
+                    <h4>Ms. Vishnupriya Ahlawat</h4>
+                    <div class="faculty-title">Founder & Lead Instructor</div>
+                    <p>
+                        <strong>AIR 16 AFCAT 2024</strong> - Selected Fighter Pilot in IAF. Specialized in Psychological Testing, TAT, and GD modules. Has trained 500+ students with 87% selection rate. Expert in OLQ assessment and behavioral analysis.
+                    </p>
+                </div>
+            </div>
+            <div class="faculty-card">
+                <div class="faculty-image">👨‍✈️</div>
+                <div class="faculty-info">
+                    <h4>Wing Commander (Retd.) Amit Kumar</h4>
+                    <div class="faculty-title">Reasoning & PIQ Expert</div>
+                    <p>
+                        25 years experience in IAF. Expert in interviewing and personnel assessment. Handles all reasoning modules and personal interview preparation. Known for creating realistic interview scenarios.
+                    </p>
+                </div>
+            </div>
+            <div class="faculty-card">
+                <div class="faculty-image">👨‍🎓</div>
+                <div class="faculty-info">
+                    <h4>Dr. Rajesh Mishra</h4>
+                    <div class="faculty-title">Psychology & Self Description</div>
+                    <p>
+                        PhD in Clinical Psychology. Specializes in psychometric testing and self-analysis. Expert in understanding OLQs and personality traits. Provides personalized psychological assessment feedback.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ABOUT SECTION -->
+    <section id="about" class="container section" style="display: none;">
+        <h2>About SSB COMPASS</h2>
+        <div style="background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+            <h3 style="color: var(--primary-green); margin-bottom: 1rem;">Our Mission</h3>
+            <p style="color: var(--light-text); margin-bottom: 1.5rem; line-height: 1.8;">
+                SSB COMPASS is dedicated to guiding aspiring officers through the complex SSB selection process. We provide comprehensive, expert-led training based on real SSB experiences and proven methodologies. Our goal is to transform aspirants into confident, capable officers ready for military service.
+            </p>
+
+            <h3 style="color: var(--primary-green); margin-bottom: 1rem; margin-top: 2rem;">Why SSB COMPASS?</h3>
+            <ul style="color: var(--light-text); margin-bottom: 1.5rem;">
+                <li style="margin-bottom: 1rem;">✅ <strong>Expert Faculty:</strong> Learn from selected military professionals with real SSB experience</li>
+                <li style="margin-bottom: 1rem;">✅ <strong>Comprehensive Coverage:</strong> All SSB stages including TAT, Psyche, GD, and PIQ</li>
+                <li style="margin-bottom: 1rem;">✅ <strong>Proven Results:</strong> 92% of our students clear SSB with high selection rates</li>
+                <li style="margin-bottom: 1rem;">✅ <strong>Affordable Pricing:</strong> Quality training at reasonable rates with bundle discounts</li>
+                <li style="margin-bottom: 1rem;">✅ <strong>Lifetime Access:</strong> Once purchased, access content forever with free updates</li>
+                <li style="margin-bottom: 1rem;">✅ <strong>3-Day Refund:</strong> 100% refund if you're not satisfied within 3 days</li>
+                <li style="margin-bottom: 1rem;">✅ <strong>Community Support:</strong> Join 1000+ aspirants in our learning community</li>
+            </ul>
+
+            <h3 style="color: var(--primary-green); margin-bottom: 1rem; margin-top: 2rem;">Our OLQ Focus</h3>
+            <p style="color: var(--light-text); margin-bottom: 1rem;">
+                We train you on the 13 Officer Like Qualities (OLQs) that SSB assessors evaluate:
+            </p>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem;">
+                <div style="background: var(--cream); padding: 1rem; border-radius: 8px; text-align: center;">
+                    <div style="color: var(--light-green); font-weight: bold; margin-bottom: 0.5rem;">1. Effective Intelligence</div>
+                </div>
+                <div style="background: var(--cream); padding: 1rem; border-radius: 8px; text-align: center;">
+                    <div style="color: var(--light-green); font-weight: bold; margin-bottom: 0.5rem;">2. Reasoning Ability</div>
+                </div>
+                <div style="background: var(--cream); padding: 1rem; border-radius: 8px; text-align: center;">
+                    <div style="color: var(--light-green); font-weight: bold; margin-bottom: 0.5rem;">3. Organizing Ability</div>
+                </div>
+                <div style="background: var(--cream); padding: 1rem; border-radius: 8px; text-align: center;">
+                    <div style="color: var(--light-green); font-weight: bold; margin-bottom: 0.5rem;">4. Power of Expression</div>
+                </div>
+                <div style="background: var(--cream); padding: 1rem; border-radius: 8px; text-align: center;">
+                    <div style="color: var(--light-green); font-weight: bold; margin-bottom: 0.5rem;">5. Social Adaptability</div>
+                </div>
+                <div style="background: var(--cream); padding: 1rem; border-radius: 8px; text-align: center;">
+                    <div style="color: var(--light-green); font-weight: bold; margin-bottom: 0.5rem;">6. Cooperation</div>
+                </div>
+                <div style="background: var(--cream); padding: 1rem; border-radius: 8px; text-align: center;">
+                    <div style="color: var(--light-green); font-weight: bold; margin-bottom: 0.5rem;">7. Sense of Responsibility</div>
+                </div>
+                <div style="background: var(--cream); padding: 1rem; border-radius: 8px; text-align: center;">
+                    <div style="color: var(--light-green); font-weight: bold; margin-bottom: 0.5rem;">8. Initiative</div>
+                </div>
+                <div style="background: var(--cream); padding: 1rem; border-radius: 8px; text-align: center;">
+                    <div style="color: var(--light-green); font-weight: bold; margin-bottom: 0.5rem;">9. Self-Confidence</div>
+                </div>
+                <div style="background: var(--cream); padding: 1rem; border-radius: 8px; text-align: center;">
+                    <div style="color: var(--light-green); font-weight: bold; margin-bottom: 0.5rem;">10. Speed of Decision</div>
+                </div>
+                <div style="background: var(--cream); padding: 1rem; border-radius: 8px; text-align: center;">
+                    <div style="color: var(--light-green); font-weight: bold; margin-bottom: 0.5rem;">11. Personality Influence</div>
+                </div>
+                <div style="background: var(--cream); padding: 1rem; border-radius: 8px; text-align: center;">
+                    <div style="color: var(--light-green); font-weight: bold; margin-bottom: 0.5rem;">12. Livelihood</div>
+                </div>
+                <div style="background: var(--cream); padding: 1rem; border-radius: 8px; text-align: center;">
+                    <div style="color: var(--light-green); font-weight: bold; margin-bottom: 0.5rem;">13. Determination</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT SECTION -->
+    <section id="contact" class="container section" style="display: none;">
+        <h2>Get In Touch</h2>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin-top: 2rem;">
+            <div style="background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                <h3 style="color: var(--primary-green); margin-bottom: 1.5rem;">Contact Information</h3>
+                <div style="margin-bottom: 1.5rem;">
+                    <h4 style="color: var(--light-green); margin-bottom: 0.5rem;">📍 Location</h4>
+                    <p style="color: var(--light-text);">Gothra, Rajasthan, India</p>
+                </div>
+                <div style="margin-bottom: 1.5rem;">
+                    <h4 style="color: var(--light-green); margin-bottom: 0.5rem;">📱 WhatsApp</h4>
+                    <p style="color: var(--light-text);">+91-XXXXXXXXXX</p>
+                </div>
+                <div style="margin-bottom: 1.5rem;">
+                    <h4 style="color: var(--light-green); margin-bottom: 0.5rem;">📧 Email</h4>
+                    <p style="color: var(--light-text);">info@ssbcompass.com</p>
+                </div>
+                <div style="margin-bottom: 1.5rem;">
+                    <h4 style="color: var(--light-green); margin-bottom: 0.5rem;">⏰ Response Time</h4>
+                    <p style="color: var(--light-text);">Usually within 24 hours</p>
+                </div>
+            </div>
+
+            <div style="background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                <h3 style="color: var(--primary-green); margin-bottom: 1.5rem;">Send us a Query</h3>
+                <form onsubmit="submitQuery(event)">
+                    <div class="form-group">
+                        <label>Your Name</label>
+                        <input type="text" id="queryName" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="queryEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Subject</label>
+                        <input type="text" id="querySubject" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Message</label>
+                        <textarea id="queryMessage" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Send Query</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- ADMIN DASHBOARD -->
+    <div id="adminDashboard" class="admin-dashboard">
+        <div class="admin-header">
+            <h2 style="margin: 0;">SSB COMPASS - Admin Dashboard</h2>
+            <button class="btn btn-secondary" onclick="adminLogout()">Logout</button>
+        </div>
+
+        <div class="admin-main">
+            <div class="admin-sidebar">
+                <a href="#" onclick="showAdminSection('dashboard')" class="admin-nav active">📊 Dashboard</a>
+                <a href="#" onclick="showAdminSection('courses')" class="admin-nav">📚 Manage Courses</a>
+                <a href="#" onclick="showAdminSection('candidates')" class="admin-nav">🏆 Selected Candidates</a>
+                <a href="#" onclick="showAdminSection('users')" class="admin-nav">👥 Users</a>
+                <a href="#" onclick="showAdminSection('payments')" class="admin-nav">💰 Payments</a>
+                <a href="#" onclick="showAdminSection('future')" class="admin-nav">📅 Future Plans</a>
+                <a href="#" onclick="showAdminSection('settings')" class="admin-nav">⚙️ Settings</a>
+            </div>
+
+            <div class="admin-content">
+                <!-- Dashboard Section -->
+                <div id="admin-dashboard" class="admin-section active">
+                    <h3>📊 Dashboard Overview</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+                        <div style="background: linear-gradient(135deg, var(--primary-green) 0%, var(--light-green) 100%); color: white; padding: 2rem; border-radius: 12px; text-align: center;">
+                            <div style="font-size: 2rem; margin-bottom: 0.5rem;">1,250</div>
+                            <div style="font-size: 0.95rem;">Total Users</div>
+                        </div>
+                        <div style="background: linear-gradient(135deg, var(--light-green) 0%, #1a5d3a 100%); color: white; padding: 2rem; border-radius: 12px; text-align: center;">
+                            <div style="font-size: 2rem; margin-bottom: 0.5rem;">₹4,85,000</div>
+                            <div style="font-size: 0.95rem;">Total Revenue</div>
+                        </div>
+                        <div style="background: linear-gradient(135deg, var(--gold) 0%, #dbb85f 100%); color: var(--primary-green); padding: 2rem; border-radius: 12px; text-align: center;">
+                            <div style="font-size: 2rem; margin-bottom: 0.5rem;">456</div>
+                            <div style="font-size: 0.95rem;">Courses Sold</div>
+                        </div>
+                        <div style="background: linear-gradient(135deg, #2d8659 0%, #1a5d3a 100%); color: white; padding: 2rem; border-radius: 12px; text-align: center;">
+                            <div style="font-size: 2rem; margin-bottom: 0.5rem;">92%</div>
+                            <div style="font-size: 0.95rem;">Success Rate</div>
+                        </div>
+                    </div>
+                    <div style="background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                        <h4 style="color: var(--primary-green); margin-bottom: 1rem;">📈 Monthly Analytics</h4>
+                        <p style="color: var(--light-text);">
+                            This month: 180 new registrations | 42 courses purchased | ₹65,000 revenue<br>
+                            Growth vs last month: +25% users | +18% revenue | +12% courses sold
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Manage Courses Section -->
+                <div id="admin-courses" class="admin-section">
+                    <h3>📚 Manage Courses</h3>
+                    <button class="btn btn-primary" style="margin-bottom: 1.5rem;" onclick="showAddCourseForm()">+ Add New Course</button>
+                    
+                    <div id="addCourseForm" style="background: white; padding: 2rem; border-radius: 12px; margin-bottom: 2rem; display: none;">
+                        <h4 style="color: var(--primary-green); margin-bottom: 1rem;">Add New Course</h4>
+                        <div class="form-group">
+                            <label>Course Name</label>
+                            <input type="text" id="newCourseName">
+                        </div>
+                        <div class="form-group">
+                            <label>Description</label>
+                            <textarea id="newCourseDesc" rows="4"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Price (₹)</label>
+                            <input type="number" id="newCoursePrice">
+                        </div>
+                        <div class="form-group">
+                            <label>Duration</label>
+                            <input type="text" id="newCourseDuration" placeholder="e.g., 30 minutes">
+                        </div>
+                        <button class="btn btn-primary" onclick="saveCourse()">Save Course</button>
+                        <button class="btn btn-secondary" onclick="hiddenAddCourseForm()" style="margin-left: 0.5rem;">Cancel</button>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Course Name</th>
+                                    <th>Price</th>
+                                    <th>Students</th>
+                                    <th>Revenue</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Verbal Reasoning</td>
+                                    <td>₹999</td>
+                                    <td>156</td>
+                                    <td>₹1,55,844</td>
+                                    <td><button class="btn-small" onclick="editCourse(1)">Edit</button> <button class="btn-small" onclick="deleteCourse(1)">Delete</button></td>
+                                </tr>
+                                <tr>
+                                    <td>TAT Course</td>
+                                    <td>₹1,499</td>
+                                    <td>98</td>
+                                    <td>₹1,46,902</td>
+                                    <td><button class="btn-small" onclick="editCourse(2)">Edit</button> <button class="btn-small" onclick="deleteCourse(2)">Delete</button></td>
+                                </tr>
+                                <tr>
+                                    <td>Complete Bundle</td>
+                                    <td>₹7,499</td>
+                                    <td>45</td>
+                                    <td>₹3,37,455</td>
+                                    <td><button class="btn-small" onclick="editCourse(3)">Edit</button> <button class="btn-small" onclick="deleteCourse(3)">Delete</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Selected Candidates Section -->
+                <div id="admin-candidates" class="admin-section">
+                    <h3>🏆 Recently Selected Candidates</h3>
+                    <button class="btn btn-primary" style="margin-bottom: 1.5rem;" onclick="showAddCandidateForm()">+ Add Candidate</button>
+                    
+                    <div id="addCandidateForm" style="background: white; padding: 2rem; border-radius: 12px; margin-bottom: 2rem; display: none;">
+                        <h4 style="color: var(--primary-green); margin-bottom: 1rem;">Add Selected Candidate</h4>
+                        <div class="form-group">
+                            <label>Candidate Name</label>
+                            <input type="text" id="candName">
+                        </div>
+                        <div class="form-group">
+                            <label>Position/Service</label>
+                            <input type="text" id="candPosition" placeholder="e.g., Fighter Pilot - IAF">
+                        </div>
+                        <div class="form-group">
+                            <label>Selection Date</label>
+                            <input type="date" id="candDate">
+                        </div>
+                        <div class="form-group">
+                            <label>Photo Upload</label>
+                            <input type="file" id="candPhoto" accept="image/*">
+                        </div>
+                        <button class="btn btn-primary" onclick="saveCandidate()">Save Candidate</button>
+                        <button class="btn btn-secondary" onclick="hideAddCandidateForm()" style="margin-left: 0.5rem;">Cancel</button>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Candidate Name</th>
+                                    <th>Position</th>
+                                    <th>Selection Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Rahul Singh</td>
+                                    <td>Fighter Pilot - IAF</td>
+                                    <td>Aug 2025</td>
+                                    <td><button class="btn-small" onclick="editCandidate(1)">Edit</button> <button class="btn-small" onclick="deleteCandidate(1)">Delete</button></td>
+                                </tr>
+                                <tr>
+                                    <td>Priya Sharma</td>
+                                    <td>Service Officer - Army</td>
+                                    <td>Jul 2025</td>
+                                    <td><button class="btn-small" onclick="editCandidate(2)">Edit</button> <button class="btn-small" onclick="deleteCandidate(2)">Delete</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Users Section -->
+                <div id="admin-users" class="admin-section">
+                    <h3>👥 Manage Users</h3>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>User Name</th>
+                                    <th>Email</th>
+                                    <th>Joined Date</th>
+                                    <th>Courses</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Amit Kumar</td>
+                                    <td>amit@email.com</td>
+                                    <td>2025-01-15</td>
+                                    <td>3</td>
+                                    <td><span class="badge">Active</span></td>
+                                    <td><button class="btn-small" onclick="viewUser(1)">View</button> <button class="btn-small" onclick="deleteUser(1)">Remove</button></td>
+                                </tr>
+                                <tr>
+                                    <td>Neha Gupta</td>
+                                    <td>neha@email.com</td>
+                                    <td>2025-01-10</td>
+                                    <td>5</td>
+                                    <td><span class="badge">Active</span></td>
+                                    <td><button class="btn-small" onclick="viewUser(2)">View</button> <button class="btn-small" onclick="deleteUser(2)">Remove</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Payments Section -->
+                <div id="admin-payments" class="admin-section">
+                    <h3>💰 Payment Transactions</h3>
+                    <div style="background: white; padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem;">
+                        <h4 style="color: var(--primary-green); margin-bottom: 1rem;">Monthly Revenue Summary</h4>
+                        <p style="color: var(--light-text); margin-bottom: 1rem;">
+                            <strong>Total Revenue:</strong> ₹4,85,000<br>
+                            <strong>Pending Payments:</strong> ₹12,500<br>
+                            <strong>Completed Transactions:</strong> 150<br>
+                            <strong>Failed Transactions:</strong> 8
+                        </p>
+                    </div>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Transaction ID</th>
+                                    <th>User Name</th>
+                                    <th>Course</th>
+                                    <th>Amount</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>#TXN001</td>
+                                    <td>Rahul Singh</td>
+                                    <td>Verbal Reasoning</td>
+                                    <td>₹999</td>
+                                    <td>2025-01-24</td>
+                                    <td><span class="badge">Completed</span></td>
+                                </tr>
+                                <tr>
+                                    <td>#TXN002</td>
+                                    <td>Priya Sharma</td>
+                                    <td>Complete Bundle</td>
+                                    <td>₹7,499</td>
+                                    <td>2025-01-23</td>
+                                    <td><span class="badge">Completed</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Future Plans Section -->
+                <div id="admin-future" class="admin-section">
+                    <h3>📅 Future Plans & Details</h3>
+                    <button class="btn btn-primary" style="margin-bottom: 1.5rem;" onclick="showAddPlanForm()">+ Add Future Plan</button>
+                    
+                    <div id="addPlanForm" style="background: white; padding: 2rem; border-radius: 12px; margin-bottom: 2rem; display: none;">
+                        <h4 style="color: var(--primary-green); margin-bottom: 1rem;">Add Future Plan/Event</h4>
+                        <div class="form-group">
+                            <label>Event/Plan Title</label>
+                            <input type="text" id="planTitle">
+                        </div>
+                        <div class="form-group">
+                            <label>Description</label>
+                            <textarea id="planDesc" rows="4"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Scheduled Date</label>
+                            <input type="date" id="planDate">
+                        </div>
+                        <div class="form-group">
+                            <label>Category</label>
+                            <select id="planCategory">
+                                <option>Workshop</option>
+                                <option>Webinar</option>
+                                <option>Mock Test</option>
+                                <option>Course Launch</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+                        <button class="btn btn-primary" onclick="savePlan()">Save Plan</button>
+                        <button class="btn btn-secondary" onclick="hideAddPlanForm()" style="margin-left: 0.5rem;">Cancel</button>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Event/Plan</th>
+                                    <th>Category</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Advance GD Workshop</td>
+                                    <td>Workshop</td>
+                                    <td>2025-02-15</td>
+                                    <td><span class="badge">Scheduled</span></td>
+                                    <td><button class="btn-small" onclick="editPlan(1)">Edit</button> <button class="btn-small" onclick="deletePlan(1)">Delete</button></td>
+                                </tr>
+                                <tr>
+                                    <td>Live PIQ Mentorship</td>
+                                    <td>Webinar</td>
+                                    <td>2025-02-20</td>
+                                    <td><span class="badge">Scheduled</span></td>
+                                    <td><button class="btn-small" onclick="editPlan(2)">Edit</button> <button class="btn-small" onclick="deletePlan(2)">Delete</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Settings Section -->
+                <div id="admin-settings" class="admin-section">
+                    <h3>⚙️ Platform Settings</h3>
+                    <div style="background: white; padding: 2rem; border-radius: 12px;">
+                        <h4 style="color: var(--primary-green); margin-bottom: 1.5rem;">General Settings</h4>
+                        <div class="form-group">
+                            <label>Platform Name</label>
+                            <input type="text" value="SSB COMPASS" readonly style="background: var(--dark-cream);">
+                        </div>
+                        <div class="form-group">
+                            <label>UPI ID for Payments</label>
+                            <input type="text" id="upiId" value="8290002626@axl">
+                        </div>
+                        <div class="form-group">
+                            <label>Contact Email</label>
+                            <input type="email" id="contactEmail" value="info@ssbcompass.com">
+                        </div>
+                        <div class="form-group">
+                            <label>Refund Policy Days</label>
+                            <input type="number" id="refundDays" value="3">
+                        </div>
+                        <div class="form-group">
+                            <label>Support WhatsApp Number</label>
+                            <input type="text" id="whatsappNumber" placeholder="+91-XXXXXXXXXX">
+                        </div>
+                        <button class="btn btn-primary" onclick="saveSettings()">Save Settings</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer id="footer" style="margin-top: 0;">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <a href="#" onclick="showSection('home')">Home</a>
+                <a href="#" onclick="showSection('courses')">Courses</a>
+                <a href="#" onclick="showSection('results')">Results</a>
+                <a href="#" onclick="showSection('about')">About Us</a>
+                <a href="#" onclick="showSection('contact')">Contact</a>
+            </div>
+            <div class="footer-section">
+                <h4>Courses</h4>
+                <a href="#" onclick="showSection('courses')">Verbal Reasoning</a>
+                <a href="#" onclick="showSection('courses')">Non-Verbal Reasoning</a>
+                <a href="#" onclick="showSection('courses')">TAT Course</a>
+                <a href="#" onclick="showSection('courses')">GD Course</a>
+                <a href="#" onclick="showSection('courses')">PIQ Course</a>
+            </div>
+            <div class="footer-section">
+                <h4>Policies</h4>
+                <a href="#" onclick="showPolicy('refund')">Refund Policy</a>
+                <a href="#" onclick="showPolicy('terms')">Terms & Conditions</a>
+                <a href="#" onclick="showPolicy('privacy')">Privacy Policy</a>
+                <a href="#" onclick="showSection('contact')">Contact Support</a>
+            </div>
+            <div class="footer-section">
+                <h4>Connect With Us</h4>
+                <a href="#">📱 WhatsApp</a>
+                <a href="#">📧 Email</a>
+                <a href="#">🌐 Website</a>
+                <a href="#">📍 Visit Us</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 SSB COMPASS. All Rights Reserved. | Developed by SSB COMPASS Team</p>
+            <p style="font-size: 0.85rem; margin-top: 1rem;">
+                This website uses cookies to improve user experience. By continuing to browse, you agree to our Terms & Privacy Policy.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // ===== UTILITY FUNCTIONS =====
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = "block";
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = "none";
+        }
+
+        function showSection(sectionId) {
+            // Hide all sections first
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                section.style.display = 'none';
+            });
+            
+            // Hide hero if not home
+            const hero = document.querySelector('.hero');
+            const footer = document.querySelector('footer');
+            
+            if (sectionId === 'home') {
+                hero.style.display = 'block';
+                footer.style.display = 'block';
+            } else {
+                hero.style.display = 'none';
+                footer.style.display = 'block';
+            }
+            
+            // Show selected section
+            const selectedSection = document.getElementById(sectionId);
+            if (selectedSection) {
+                selectedSection.style.display = 'block';
+            }
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        // ===== AUTHENTICATION FUNCTIONS =====
+        function adminLogin() {
+            openModal('adminLoginModal');
+        }
+
+        function adminLoginVerify() {
+            const adminId = document.getElementById('adminId').value;
+            const adminPass = document.getElementById('adminPass').value;
+            
+            // Demo credentials check
+            if (adminId === 'ADMIN123' && adminPass === 'SSBNEW2026') {
+                closeModal('adminLoginModal');
+                document.getElementById('adminDashboard').classList.add('active');
+                showAdminSection('dashboard');
+                alert('✅ Admin Login Successful!');
+            } else {
+                alert('❌ Invalid Admin ID or Password!\n\nDemo Credentials:\nID: ADMIN123\nPass: SSBNEW2026');
+            }
+        }
+
+        function adminLogout() {
+            document.getElementById('adminDashboard').classList.remove('active');
+            document.getElementById('adminId').value = '';
+            document.getElementById('adminPass').value = '';
+            showSection('home');
+            alert('👋 You have been logged out successfully!');
+        }
+
+        function userLogin() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            if (email && password) {
+                closeModal('loginModal');
+                alert('✅ Login Successful! Welcome back, ' + email);
+                document.getElementById('loginEmail').value = '';
+                document.getElementById('loginPassword').value = '';
+            } else {
+                alert('❌ Please enter both email and password');
+            }
+        }
+
+        function userRegister() {
+            const name = document.getElementById('regName').value;
+            const email = document.getElementById('regEmail').value;
+            const password = document.getElementById('regPassword').value;
+            const confirmPassword = document.getElementById('regConfirmPassword').value;
+            
+            if (!name || !email || !password || !confirmPassword) {
+                alert('❌ Please fill in all fields');
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                alert('❌ Passwords do not match');
+                return;
+            }
+            
+            closeModal('registerModal');
+            alert('✅ Registration Successful! Welcome to SSB COMPASS, ' + name + '\n\nPlease login to continue.');
+            document.getElementById('regName').value = '';
+            document.getElementById('regEmail').value = '';
+            document.getElementById('regPassword').value = '';
+            document.getElementById('regConfirmPassword').value = '';
+        }
+
+        // ===== PAYMENT FUNCTIONS =====
+        function purchaseCourse(courseName, price) {
+            const refNum = 'SSB' + Date.now();
+            document.getElementById('paymentDetails').innerHTML = `
+                <div class="success-message">
+                    <strong>Course:</strong> ${courseName}<br>
+                    <strong>Amount:</strong> ₹${price}
+                </div>
+            `;
+            document.getElementById('paymentAmount').value = '₹' + price;
+            document.getElementById('paymentRef').value = refNum;
+            openModal('paymentModal');
+        }
+
+        function addToCart(courseName, price) {
+            alert(`✅ ${courseName} (₹${price}) added to cart!\n\nYou can view your cart in the user profile section.`);
+        }
+
+        function completePayment() {
+            const amount = document.getElementById('paymentAmount').value;
+            const refNum = document.getElementById('paymentRef').value;
+            closeModal('paymentModal');
+            alert(`✅ Payment Request Sent!\n\nReference: ${refNum}\nAmount: ${amount}\n\nPlease complete the UPI payment and send the screenshot to us via WhatsApp for course access activation.`);
+        }
+
+        // ===== ADMIN FUNCTIONS =====
+        function showAdminSection(sectionId) {
+            const sections = document.querySelectorAll('.admin-section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            const selectedSection = document.getElementById('admin-' + sectionId);
+            if (selectedSection) {
+                selectedSection.classList.add('active');
+            }
+            
+            // Update sidebar active state
+            const navLinks = document.querySelectorAll('.admin-nav');
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+
+        function showAddCourseForm() {
+            document.getElementById('addCourseForm').style.display = 'block';
+        }
+
+        function hiddenAddCourseForm() {
+            document.getElementById('addCourseForm').style.display = 'none';
+            document.getElementById('newCourseName').value = '';
+            document.getElementById('newCourseDesc').value = '';
+            document.getElementById('newCoursePrice').value = '';
+            document.getElementById('newCourseDuration').value = '';
+        }
+
+        function saveCourse() {
+            const name = document.getElementById('newCourseName').value;
+            const desc = document.getElementById('newCourseDesc').value;
+            const price = document.getElementById('newCoursePrice').value;
+            const duration = document.getElementById('newCourseDuration').value;
+            
+            if (name && desc && price && duration) {
+                alert(`✅ Course "${name}" added successfully!\nPrice: ₹${price}`);
+                hiddenAddCourseForm();
+            } else {
+                alert('❌ Please fill in all fields');
+            }
+        }
+
+        function editCourse(id) {
+            alert(`📝 Editing Course #${id}\n\nThis would open the course editor with existing details.`);
+        }
+
+        function deleteCourse(id) {
+            if (confirm('Are you sure you want to delete this course?')) {
+                alert(`✅ Course #${id} deleted successfully`);
+            }
+        }
+
+        function showAddCandidateForm() {
+            document.getElementById('addCandidateForm').style.display = 'block';
+        }
+
+        function hideAddCandidateForm() {
+            document.getElementById('addCandidateForm').style.display = 'none';
+        }
+
+        function saveCandidate() {
+            const name = document.getElementById('candName').value;
+            const position = document.getElementById('candPosition').value;
+            const date = document.getElementById('candDate').value;
+            
+            if (name && position && date) {
+                alert(`✅ Candidate "${name}" added to success stories!`);
+                hideAddCandidateForm();
+                document.getElementById('candName').value = '';
+                document.getElementById('candPosition').value = '';
+                document.getElementById('candDate').value = '';
+            } else {
+                alert('❌ Please fill in all fields');
+            }
+        }
+
+        function editCandidate(id) {
+            alert(`📝 Editing Candidate #${id}`);
+        }
+
+        function deleteCandidate(id) {
+            if (confirm('Remove this candidate from success stories?')) {
+                alert(`✅ Candidate removed`);
+            }
+        }
+
+        function viewUser(id) {
+            alert(`👤 Viewing User #${id}\n\nThis would show detailed user profile and purchase history.`);
+        }
+
+        function deleteUser(id) {
+            if (confirm('Are you sure you want to remove this user?')) {
+                alert(`✅ User #${id} removed`);
+            }
+        }
+
+        function showAddPlanForm() {
+            document.getElementById('addPlanForm').style.display = 'block';
+        }
+
+        function hideAddPlanForm() {
+            document.getElementById('addPlanForm').style.display = 'none';
+        }
+
+        function savePlan() {
+            const title = document.getElementById('planTitle').value;
+            const date = document.getElementById('planDate').value;
+            
+            if (title && date) {
+                alert(`✅ Future plan "${title}" scheduled for ${date}`);
+                hideAddPlanForm();
+            } else {
+                alert('❌ Please fill in all fields');
+            }
+        }
+
+        function editPlan(id) {
+            alert(`📝 Editing Plan #${id}`);
+        }
+
+        function deletePlan(id) {
+            if (confirm('Delete this future plan?')) {
+                alert(`✅ Plan deleted`);
+            }
+        }
+
+        function saveSettings() {
+            alert('✅ Settings saved successfully!');
+        }
+
+        // ===== FORM SUBMISSIONS =====
+        function submitQuery(event) {
+            event.preventDefault();
+            const name = document.getElementById('queryName').value;
+            const email = document.getElementById('queryEmail').value;
+            
+            alert(`✅ Query submitted!\n\nThank you ${name}. We will contact you at ${email} within 24 hours.`);
+            
+            document.getElementById('queryName').value = '';
+            document.getElementById('queryEmail').value = '';
+            document.getElementById('querySubject').value = '';
+            document.getElementById('queryMessage').value = '';
+        }
+
+        function showPolicy(type) {
+            let message = '';
+            if (type === 'refund') {
+                message = '💰 REFUND POLICY\n\nWe offer a 100% refund within 3 days of purchase if you are not satisfied with the course content or quality.\n\nHow to request refund:\n1. Contact us via WhatsApp or Email\n2. Provide your purchase order number\n3. We will process refund within 2-3 business days\n\nRefunds are credited to the original UPI ID used for payment.';
+            } else if (type === 'terms') {
+                message = '📜 TERMS & CONDITIONS\n\nBy using SSB COMPASS platform, you agree to:\n\n1. Use only for personal SSB preparation\n2. Not share course access with others\n3. Follow all rules and guidelines\n4. Respect intellectual property rights\n5. Pay for services as per pricing\n\nFor complete terms, please contact us.';
+            } else if (type === 'privacy') {
+                message = '🔐 PRIVACY POLICY\n\nWe protect your personal data:\n\n1. Your information is secure and encrypted\n2. We do not sell your data to third parties\n3. You can request data deletion anytime\n4. Cookies are used only for website functionality\n5. Contact us for privacy concerns\n\nFor complete privacy policy, visit our website.';
+            }
+            alert(message);
+        }
+
+        // ===== INITIALIZATION =====
+        window.onclick = function(event) {
+            const modals = document.querySelectorAll('.modal');
+            modals.forEach(modal => {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        }
+
+        // Load home section on page load
+        window.addEventListener('load', function() {
+            showSection('home');
+            console.log('%c🎖️ SSB COMPASS Platform Loaded Successfully! 🎖️', 'color: green; font-size: 16px; font-weight: bold;');
+            console.log('%cDemo Admin Credentials:\nID: ADMIN123\nPass: SSBNEW2026', 'color: blue; font-size: 12px;');
+            console.log('%cUPI ID for Payments: 8290002626@axl', 'color: purple; font-size: 12px;');
+        });
+    </script>
+</body>
+</html>
